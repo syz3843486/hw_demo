@@ -1,0 +1,461 @@
+// Dota Heroes File
+"DOTAAbilities"
+{
+	"Version"		"1"
+
+	//=================================================================================================================
+	// Templar Assassin: Refraction Holdout
+	//=================================================================================================================
+	"templar_assassin_refraction_holdout"
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
+
+		// Casting
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityCastPoint"				"0.0 0.0 0.0 0.0"
+
+		// Time		
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityCooldown"				"17.0 17.0 17.0 17.0"
+
+		// Cost
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityManaCost"				"100"
+		
+		// Special
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"damage_absorb"				"200 300 400 500"
+			}
+			"02"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"bonus_damage"				"20 40 60 80"
+			}
+			"04"
+			{
+				"var_type"					"FIELD_FLOAT"
+				"duration"					"17.0 17.0 17.0 17.0"
+			}
+		}
+	}
+
+	//焰刃
+	"infernal_blade"
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"BaseClass"             "ability_datadriven"
+		"AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"AbilityTextureName"    "doom_bringer_infernal_blade"
+		
+		"AbilityUnitDamageType"	"DAMAGE_TYPE_PHYSICAL"
+
+		// Modifiers
+		//-------------------------------------------------------------------------------------------------------------
+		"Modifiers"
+		{
+			"infernal_blade_modifier"
+			{
+				"Passive" "1"
+				"IsHidden"        "1"
+				
+				"OnAttack"
+				{
+					"Random"
+					{
+						"Chance"                "%change"
+						"OnSuccess"
+						{
+							"ApplyModifier"
+							{
+								"ModifierName"    "infernal_blade_debuff"
+								"Target"          "TARGET"
+							}
+							"RunScript"
+							{
+								"ScriptFile" 	  "modifier/infernal_blade_modifier.lua"
+								"Function"		  "AddPhyiscDamage"
+								"Target"          "TARGET"
+							}
+						}
+					}
+				}
+			}
+
+			"infernal_blade_debuff"
+			{
+				"IsDebuff"			"1"
+				"AbilityTextureName" "doom_bringer_infernal_blade"
+				"Duration"      "%duration"
+				"Properties"
+				{
+					"MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS"      			  "%physical_armor"
+				}
+			}
+		}
+
+		"AbilitySpecial"
+		{
+			//触发概率
+			"01"
+			{
+				"var_type"	"FIELD_INTEGER"
+				"change"	"100 100 100"
+			}
+
+			//持续时间
+			"02"
+			{
+				"var_type"  "FIELD_INTEGER"
+				"duration"	"5 5 5"
+			}
+
+			//修改护甲
+			"03"
+			{
+				"var_type"  "FIELD_INTEGER"
+				"physical_armor"  "-5 -5 -5"
+			}
+
+			"04"
+			{
+				"var_type"  "FIELD_INTEGER"
+				"add_damge" "500 500 500"
+			}
+		}
+	}
+
+	//闪避
+	"miss_ability"
+	{
+		"BaseClass"             "ability_datadriven"
+		"AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"AbilityTextureName"    "phantom_assassin_blur"
+		
+		"Modifiers"
+		{
+			"miss_buff"
+			{
+				"Passive" "1"
+				"IsHidden"        "1"
+
+				"Properties"
+				{
+					"MODIFIER_PROPERTY_EVASION_CONSTANT"      			  "%evasion_bonus"
+				}
+			}
+		}
+
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"	"FIELD_INTEGER"
+				"evasion_bonus"	"40 42 44 46 48 50 52 54 57 60"
+			}
+		}
+	}
+
+	"new_blade_fury"
+	{
+		"BaseClass"             "ability_datadriven"
+		"AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+		"AbilityTextureName"    "juggernaut_blade_fury"
+
+		"AbilityCooldown"                                "5.0 5.0 5.0 5.0"
+        "AbilityManaCost"                                "0"
+		"AbilityCastPoint"								 "0.3"
+		"AbilityUnitDamageType"	"DAMAGE_TYPE_MAGICAL"
+
+		"OnSpellStart"      // 事件
+		{
+			"ApplyModifier"     // 操作
+			{
+				"ModifierName"    "blade_fury_buff"
+				"Target"          "CASTER"
+			}
+		}
+
+		"Modifiers"
+		{
+			"blade_fury_buff"
+			{
+				"AbilityTextureName" "juggernaut_blade_fury"
+				"Duration" 			"%duration"
+				"OnCreated"
+				{
+					"AttachEffect"
+					{
+						"EffectName" 			"particles/econ/items/juggernaut/jugg_ti8_sword/juggernaut_blade_fury_abyssal.vpcf"
+						"EffectAttachType"      "follow_origin"
+						"Target"                "CASTER"
+					}
+
+					"RunScript"
+					{
+						"ScriptFile" 	  "modifier/blade_fury_buff.lua"
+						"Function"		  "OnCreated"
+					}
+				}
+
+				"ThinkInterval"                "%interval"
+				"OnIntervalThink"
+				{
+					"RunScript"
+					{
+						"ScriptFile" 	  "modifier/blade_fury_buff.lua"
+						"Function"		  "OnIntervalThink"
+					}
+				}
+				"States"
+				{
+					"MODIFIER_STATE_MAGIC_IMMUNE"	"MODIFIER_STATE_VALUE_ENABLED"
+				}  
+			}
+		}
+
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"	"FIELD_INTEGER"
+				"duration"	"3 4 5"			//持续时间
+			}
+			"02"
+			{
+				"var_type"  "FIELD_INTEGER"
+				"radius"    "300"
+			}
+			"03"
+			{
+				"var_type"  "FIELD_INTEGER"
+				"damage"    "100"
+			}
+			"04"
+			{
+				"var_type"  "FIELD_FLOAT"
+				"interval"  "0.2"
+			}
+			"05"
+			{
+				"var_type"  "FIELD_INTEGER"
+				"blink_dist" "350"
+			}
+		}
+	}
+
+	//把unit伪装成粒子的buff
+	"fake_particle_ability"
+	{
+		"BaseClass"             "ability_datadriven"
+
+		"Modifiers"
+		{
+			"fake_particle_buff"
+			{
+				"Passive" "1"
+				"IsHidden"        "1"
+
+				"States" 
+				{
+					"MODIFIER_STATE_UNSELECTABLE" "MODIFIER_STATE_VALUE_ENABLED"
+					"MODIFIER_STATE_FLYING"  "MODIFIER_STATE_VALUE_ENABLED"
+					"MODIFIER_STATE_INVISIBLE" "MODIFIER_STATE_VALUE_ENABLED"
+					"MODIFIER_STATE_INVULNERABLE"    "MODIFIER_STATE_VALUE_ENABLED"
+					"MODIFIER_STATE_NO_HEALTH_BAR"  "MODIFIER_STATE_VALUE_ENABLED"
+					"MODIFIER_STATE_NOT_ON_MINIMAP" "MODIFIER_STATE_VALUE_ENABLED"
+					"MODIFIER_STATE_NO_UNIT_COLLISION" "MODIFIER_STATE_VALUE_ENABLED"
+				}
+			}
+		}
+	}
+
+	//喷火
+	"breathe_fire"
+	{
+		"BaseClass"						"dragon_knight_breathe_fire"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_DIRECTIONAL | DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"				   
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"	   
+		"AbilityUnitTargetFlags"		"DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES"
+		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_NO"
+		"SpellDispellableType"			"SPELL_DISPELLABLE_YES"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"	
+		"FightRecapLevel"				"1"
+		"AbilitySound"					"Hero_DragonKnight.BreathFire"
+
+		// Casting
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityCastRange"				"600"
+		"AbilityCastPoint"				"0.2"
+
+		// Time		
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityCooldown"				"14 13 12 11"
+		
+		// Damage.
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityDamage"					"90 170 240 300"
+		
+		// Cost
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityManaCost"				"100 110 120 130"
+		
+		// Special	
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"start_radius"			"150 150 150 150"
+			}
+			"02"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"end_radius"			"250 250 250 250"
+			}
+			"03"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"range"					"750"
+			}
+			"04"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"speed"					"1050"
+			}
+			"05"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"reduction"				"-25"
+				"LinkedSpecialBonus"		"special_bonus_unique_dragon_knight_3"
+			}
+			"06"
+			{
+				"var_type"				"FIELD_FLOAT"
+				"duration"				"11"
+			}
+		}
+		"AbilityCastAnimation"		"ACT_DOTA_CAST_ABILITY_1"
+	}
+
+	//自爆
+	"techies_suicide1"
+	{
+		"BaseClass"						"ability_datadriven"
+		"AbilityTextureName"    		"techies_suicide"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT |DOTA_ABILITY_BEHAVIOR_AOE"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_NO"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"
+		"AOERadius"                 	"300"
+		// Time		
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityCooldown"				"0"
+		// Cost
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityManaCost"				"0 0 0 0"
+
+		// Casting
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityCastRange"				"1000"
+		"AbilityCastPoint"				"1.0"
+
+		"OnSpellStart"      // 事件
+		{
+			"ApplyModifier"     // 操作
+			{
+				"ModifierName"    "techies_suicide1_modifier"
+				"Target"          "CASTER"
+			}
+		}
+		
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"radius"					"400"
+			}
+			"02"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"damage"					"300 400 500 600"
+			}
+			"04"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"hp_cost"			"50"
+			} 
+		}
+	}
+
+	"spell_fire_sprite"
+	{
+		"BaseClass"						"ability_datadriven"
+		"AbilityTextureName"    		"phoenix_fire_spirits"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT |DOTA_ABILITY_BEHAVIOR_AOE"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityCooldown"				"0"
+		// Cost
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityManaCost"				"0 0 0 0"
+		"AbilityCastRange"				"1000"
+		"AbilityCastPoint"				"1.0"
+		"AOERadius"                 	"%radius"
+		
+		"OnSpellStart"      // 事件
+		{
+			"RunScript"
+			{
+				"ScriptFile" 	  "ability/spell_fire_sprite.lua"
+				"Function"		  "OnSpellStart"
+			}
+		}
+
+		"Modifiers"
+		{
+			"nevermore_necromastery_debuff"
+			{
+				"TextureName" "nevermore_shadowraze1"
+				"IsDebuff"    "1"
+				"IsPurgable"  "1"
+				"Duration"   "8"
+			}
+		}
+
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"radius"					"300"
+			}
+			"02"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"damage"					"90 160 230 300"
+			}
+			"03"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"buff_damage"				"50 60 70 80"
+			} 
+			"04"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"zxc_radius"				"250"
+			}
+		}
+	}
+}

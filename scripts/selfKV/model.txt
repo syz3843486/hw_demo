@@ -1,0 +1,37 @@
+"model"
+{
+    //升级对应的模型
+    "level"           
+    {
+        "01"  //等级
+        {
+            "HeroName"  "npc_dota_hero_legion_commander"               //英雄名字
+            "Model"		"models/heroes/legion_commander/legion_commander.vmdl"  //模型URL
+        }
+        "02"  //等级
+        {
+            "HeroName"  "npc_dota_hero_abaddon"               //英雄名字
+            "Model"		"models/heroes/abaddon/abaddon.vmdl"  //模型URL
+        }
+        "03"  //等级
+        {
+            "HeroName"  "npc_dota_hero_tusk"                        //英雄名字
+            "Model"		"models/heroes/tuskarr/tuskarr.vmdl"       //模型URL
+        }
+        "04"
+        {
+            "HeroName" "npc_dota_hero_invoker"
+            "Model"    "models/heroes/invoker/invoker.vmdl"
+        }
+    }
+
+    "scale"
+    {
+        "01" "1"
+        "02" "1.2"
+        "03" "1.3"
+        "04" "1.4"
+        "05" "1.5"
+    }
+}
+
