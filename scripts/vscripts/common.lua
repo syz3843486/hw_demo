@@ -25,7 +25,17 @@ function _G.ChangeModel(unit,level)
         unit:SetOriginalModel(level_data.Model)
         unit:SetModel(level_data.Model)
         unit.sHeroName = level_data.HeroName
-        Wearable:WearDefaults(unit)
+        if unit.Slots == nil then
+            unit.Slots= {}
+        end
+        if level_data.itemDef then
+            for slot_name , itemDef in pairs(level_data.itemDef) do
+                Wearable:Wear(unit,itemDef)
+            end
+        else
+            Wearable:WearDefaults(unit)
+        end
+
     end
     local scale = selfKV.model.scale[level]
 

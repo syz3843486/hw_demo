@@ -379,7 +379,7 @@ function Wearable:WearDefaults(hUnit)
         end
     end
     local unit_index = hUnit:GetEntityIndex()
-    CustomNetTables:SetTableValue("hero_wearables", tostring(unit_index), hUnit.Slots)
+    --CustomNetTables:SetTableValue("hero_wearables", tostring(unit_index), hUnit.Slots)
 end
 
 function Wearable:WearDefaultsPersona(hUnit)

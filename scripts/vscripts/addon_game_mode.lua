@@ -119,7 +119,10 @@ function GameModeClass:OnPlayerUsedAbility(keys)
 			if #(tree_pos-pos) < 800 then
 				local diff = tree_pos - pos 
 				local angle2 = VectorToAngles(diff).y
-				if AngleDiff(angle1,angle2) < 60  then
+				
+				if AngleDiff(angle1,angle2) < 30 and forward.Dot(forward,diff) > 0 then
+					print('forward.Dot(forward,diff)',forward.Dot(forward,diff))
+					print('AngleDiff(angle1,angle2)',AngleDiff(angle1,angle2))
 					if tree.phoenix_spirit == nil then
 						CreatePhoenixSpirit(caster,tree)
 					end

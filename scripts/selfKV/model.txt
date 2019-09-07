@@ -7,6 +7,13 @@
         {
             "HeroName"  "npc_dota_hero_legion_commander"               //英雄名字
             "Model"		"models/heroes/legion_commander/legion_commander.vmdl"  //模型URL
+
+            "itemDef"
+            {
+                "head"      "7587"
+                "arms"      "8820"
+                "weapon"    "9183"
+            }
         }
         "02"  //等级
         {
