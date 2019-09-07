@@ -182,6 +182,8 @@
 				"ModifierName"    "blade_fury_buff"
 				"Target"          "CASTER"
 			}
+
+			
 		}
 
 		"Modifiers"
@@ -215,10 +217,22 @@
 						"Function"		  "OnIntervalThink"
 					}
 				}
+				
+				"OnDestroy"
+				{
+					"RunScript"
+					{
+						"ScriptFile" 	  "modifier/blade_fury_buff.lua"
+						"Function"		  "OnDestroy"
+					}
+				}
+				
 				"States"
 				{
 					"MODIFIER_STATE_MAGIC_IMMUNE"	"MODIFIER_STATE_VALUE_ENABLED"
 				}  
+
+				
 			}
 		}
 
@@ -227,7 +241,7 @@
 			"01"
 			{
 				"var_type"	"FIELD_INTEGER"
-				"duration"	"3 4 5"			//持续时间
+				"duration"	"1 1 1"			//持续时间
 			}
 			"02"
 			{
@@ -370,12 +384,34 @@
 		"AbilityCastRange"				"1000"
 		"AbilityCastPoint"				"1.0"
 
+		"OnAbilityPhaseStart"
+		{
+			"FireSound"
+			{
+				"EffectName"    "Hero_Axe.BerserkersCall.Start"
+        		"Target"        "CASTER"
+			}
+
+			"AttachEffect"
+			{
+				"EffectName" "particles/econ/items/axe/axe_ti9_immortal/axe_ti9_beserkers_call_owner.vpcf"
+				"EffectAttachType" "PATTACH_ABSORIGIN_FOLLOW"
+				"Target"	"CASTER"
+			}
+		}
+
 		"OnSpellStart"      // 事件
 		{
 			"ApplyModifier"     // 操作
 			{
 				"ModifierName"    "techies_suicide1_modifier"
 				"Target"          "CASTER"
+			}
+
+			"FireSound"
+			{
+				"EffectName"    "Hero_Axe.Berserkers_Call"
+        		"Target"        "CASTER"
 			}
 		}
 		

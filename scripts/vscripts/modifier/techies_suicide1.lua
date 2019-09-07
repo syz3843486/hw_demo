@@ -1,6 +1,8 @@
 techies_suicide1_modifier = class({})
 
+--跳跃速度
 local MOVE_JUMP_SPEED = 500
+--水平移动速度
 local MOVE_SPEED = 1200
 -- W
 function techies_suicide1_modifier:GetBehavior()
@@ -18,6 +20,7 @@ function techies_suicide1_modifier:OnCreated(kv)
 		self:Destroy()
 		return
 	end
+	AxeCall(self:GetParent())
 	print(kv.targetpos) 
 	local curPos = self:GetParent():GetAbsOrigin()
 	self.curPos = curPos
@@ -72,6 +75,18 @@ function techies_suicide1_modifier:UpdateVerticalMotion( me, dt )
 	end
 end
 
+function techies_suicide1_modifier:DeclareFunctions()
+	print('DeclareFunctions')
+	local funcs = {
+		MODIFIER_PROPERTY_DISABLE_TURNING,
+	}
+	return funcs
+end
+
+function techies_suicide1_modifier:GetModifierDisableTurning( params )
+	print('-11GetModifierDisableTurning')
+	return 1
+end
 
 function techies_suicide1_modifier:OnDestroy()
 	if IsServer() then
@@ -108,10 +123,6 @@ function techies_suicide1_modifier:OnDestroy()
 			}
 			ApplyDamage(data)
 		end
-		FireTree(caster,pos,radius)
+		caster:EmitSound('Hero_Techies.Suicide')
 	end
-end
-
-function techies_suicide1_modifier:GetModifierDisableTurning()
-	return true
 end

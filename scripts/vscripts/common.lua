@@ -61,20 +61,12 @@ end
 
 function _G.AxeCall(unit)
     local url1 = 'particles/econ/items/axe/axe_ti9_immortal/axe_ti9_call.vpcf'
-    EasyParticle(url1)
+    EasyParticle(unit,url1)
 end
 
 function _G.InnerFire(unit)
-    local url1 = 'particles/units/heroes/hero_huskar/huskar_inner_fire_flame_ring_b.vpcf'
-    EasyParticle(unit,url1)
-    local url2 = 'particles/units/heroes/hero_huskar/huskar_inner_fire_ring.vpcf'
-    EasyParticle(unit,url2)
-    local url3 = 'particles/units/heroes/hero_huskar/huskar_inner_fire_ring_b.vpcf'
-    EasyParticle(unit,url3)
-    local url4 = 'particles/units/heroes/hero_huskar/huskar_inner_fire_embers_b.vpcf'
-    EasyParticle(unit,url4)
-    local url5 = 'particles/units/heroes/hero_huskar/huskar_inner_fire_sparks_lrg.vpcf'
-    EasyParticle(unit,url5)
+    local url = 'particles/units/heroes/hero_huskar/huskar_inner_fire.vpcf'
+    EasyParticle(unit,url)
 end
 
 

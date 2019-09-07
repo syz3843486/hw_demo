@@ -159,4 +159,11 @@ function GMClass:pos(player,args)
 	hero:SetAbsOrigin(origin)
 end
 
+function GMClass:sound(player,args)
+	local hero = player:GetAssignedHero()
+	
+	hero:EmitSound("juggernaut_jug_win_01") 
+	hero:EmitSound('Hero_DragonKnight.BreathFire') 
+end
+
 GameRules.GM = GMClass()

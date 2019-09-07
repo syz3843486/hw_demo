@@ -27,4 +27,5 @@ function OnSpellStart(keys)
         }
         ApplyDamage(data)
     end
+
 end

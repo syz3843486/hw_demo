@@ -16,8 +16,13 @@ function Precache( context )
 	PrecacheUnitByNameAsync("npc_dota_hero_legion_commander",function () end)
 	PrecacheUnitByNameAsync("npc_dota_hero_abaddon",function () end)
 	PrecacheUnitByNameAsync("npc_dota_hero_tusk",function () end)
+	PrecacheResource( "soundfile", "soundevents/game_sounds_heroes/game_sounds_dragon_knight.vsndevts", context )
+	PrecacheResource( "soundfile", "soundevents/game_sounds_heroes/game_sounds_juggernaut.vsndevts", context )
+	PrecacheResource( "soundfile", "soundevents/game_sounds_heroes/game_sounds_techies.vsndevts", context )
+	PrecacheResource( "soundfile", "soundevents/game_sounds_heroes/game_sounds_axe.vsndevts", context )
+	PrecacheResource( "soundfile", "soundevents/game_sounds_heroes/game_sounds_phoenix.vsndevts", context )
+	PrecacheResource( "soundfile", "soundevents/game_sounds_heroes/game_sounds_nevermore.vsndevts", context )
 end
-
 -- Create the game mode when we activate
 function Activate()
 	GameRules.GameMode = GameModeClass()
@@ -108,6 +113,7 @@ end
 function GameModeClass:OnPlayerUsedAbility(keys)
 	local caster = EntIndexToHScript(keys.caster_entindex)
 	if keys.abilityname == "breathe_fire" then
+		caster:EmitSound('Hero_DragonKnight.BreathFire') 
 		print('--')
 		local entities = Entities:FindAllByClassname('ent_dota_tree')
 		local pos = caster:GetAbsOrigin()

@@ -1,10 +1,6 @@
 function OnCreated(keys)
     local caster = keys.caster
-    local forward = caster:GetForwardVector()
-    local origin = caster:GetAbsOrigin()
-    local blink_dist = keys.ability:GetSpecialValueFor("blink_dist")
-    origin = origin - forward * blink_dist
-    caster:SetAbsOrigin(origin)
+    caster:EmitSound('Hero_Juggernaut.BladeFuryStart')
 end
 
 function OnIntervalThink(keys)
@@ -33,6 +29,15 @@ function OnIntervalThink(keys)
         }
         ApplyDamage(data)
     end
+end
 
-    FireTree(caster,pos,radius)
+function OnDestroy(keys)
+    local caster = keys.caster
+    local forward = caster:GetForwardVector()
+    local origin = caster:GetAbsOrigin()
+    local blink_dist = keys.ability:GetSpecialValueFor("blink_dist")
+    origin = origin - forward * blink_dist
+    caster:SetAbsOrigin(origin)
+    StopSoundOn('Hero_Juggernaut.BladeFuryStart',caster)
+    caster:EmitSound('Hero_Juggernaut.BladeFuryStop')
 end

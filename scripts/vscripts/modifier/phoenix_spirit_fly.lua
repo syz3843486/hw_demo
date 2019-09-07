@@ -30,7 +30,7 @@ function phoenix_spirit_fly:OnCreated(kv)
     self.distanceXY = #self.dir
     self.dir = self.dir:Normalized()
     self.SpeedZ = self.distanceZ / self.distanceXY * FLY_SPEED_XY
-    
+    caster:EmitSound("Hero_Phoenix.FireSpirits.Cast")
 	print('curPos ',curPos , 'targetPos', self.targetpos)
 end
 
@@ -113,6 +113,7 @@ function phoenix_spirit_fly:shadowraze()
         mod:SetStackCount(mod:GetStackCount() + 1)
     end
 
+    caster:EmitSound("Hero_Nevermore.Shadowraze")
 end
 
 function phoenix_spirit_fly:OnDestroy()
@@ -120,8 +121,6 @@ function phoenix_spirit_fly:OnDestroy()
 		self:GetParent():RemoveHorizontalMotionController( self )
 		self:GetParent():RemoveVerticalMotionController( self )
 		self:GetParent():SetForwardVector(self.dir)
-        --InnerFire(self:GetParent())
-        --particles/econ/items/shadow_fiend/sf_fire_arcana/sf_fire_arcana_shadowraze.vpcf
         
         self:shadowraze()
         local origin = self:GetParent():GetAbsOrigin()
